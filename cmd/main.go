@@ -34,5 +34,6 @@ func initConfig() error {
 		return err
 	}
 	viper.BindEnv("app_password", "APP_PASSWORD")
+	viper.BindEnv("app_username", "APP_USERNAME")
 	return nil
 }

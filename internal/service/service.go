@@ -2,7 +2,9 @@ package service
 
 import (
 	"goNotificationService/dtos"
+	"log"
 
+	"github.com/spf13/viper"
 	"gopkg.in/mail.v2"
 )
 
@@ -14,8 +16,10 @@ func NewService() *Service {
 }
 
 func (s *Service) SendMessage(input dtos.SendMessageRequest) error {
-	username := "senitapqan@mail.ru"
-	password := "eRWs2n3f5xbrkUtPFHgh"
+	username := viper.GetString("app_username")
+	password := viper.GetString("app_password")
+
+	log.Print(password)
 
 	smtpHost := "smtp.mail.ru"
 	smtpPort := 465
@@ -25,7 +29,7 @@ func (s *Service) SendMessage(input dtos.SendMessageRequest) error {
 		m.SetHeader("From", username)
 		m.SetHeader("To", email)
 		m.SetHeader("Subject", "Notification Email")
-		m.SetBody("text/plain", "Добавлен новый раздел: " + input.Title)
+		m.SetBody("text/plain", "Добавлен новый раздел: "+input.Title)
 
 		d := mail.NewDialer(smtpHost, smtpPort, username, password)
 
