@@ -33,7 +33,7 @@ func (h *Handler) sendMessage(c *gin.Context) {
 		return
 	}
 
-	err := h.service.SendMessage(input.Emails)
+	err := h.service.SendMessage(input)
 
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, "something went wrong: "+err.Error())

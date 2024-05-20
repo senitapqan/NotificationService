@@ -1,6 +1,8 @@
 package service
 
 import (
+	"goNotificationService/dtos"
+
 	"gopkg.in/mail.v2"
 )
 
@@ -11,19 +13,19 @@ func NewService() *Service {
 	return &Service{}
 }
 
-func (s *Service) SendMessage(emails []string) error {
+func (s *Service) SendMessage(input dtos.SendMessageRequest) error {
 	username := "senitapqan@mail.ru"
 	password := "eRWs2n3f5xbrkUtPFHgh"
 
 	smtpHost := "smtp.mail.ru"
 	smtpPort := 465
 
-	for _, email := range emails {
+	for _, email := range input.Emails {
 		m := mail.NewMessage()
 		m.SetHeader("From", username)
 		m.SetHeader("To", email)
 		m.SetHeader("Subject", "Notification Email")
-		m.SetBody("text/plain", "Мы отправили тебе это письмо потому что один из курсов на которые ты подписался изменился")
+		m.SetBody("text/plain", "Добавлен новый раздел: " + input.Title)
 
 		d := mail.NewDialer(smtpHost, smtpPort, username, password)
 
